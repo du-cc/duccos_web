@@ -1,3 +1,9 @@
+// Module: Tneme management
+// TODO:
+// - Sync with window engine
+// - Real time update when user changes the theme
+
+// Module data + defaults
 var data = {
   // Defaults
   theme: "light",
@@ -8,14 +14,7 @@ var data = {
   },
 };
 
-// Settings functions
-
-// TODO:
-// - Sync with window engine
-// - Real time update
-
 // Wallpaper
-
 export function setWallpaper(type, arg) {
   data.wallpaper.type = type;
   data.wallpaper.arg = arg;
@@ -32,7 +31,6 @@ export function getWallpaper() {
 }
 
 // Theme
-
 export function setTheme(theme) {
   data.theme = theme;
   if (theme == "light") {
@@ -47,7 +45,6 @@ export function getTheme() {
 }
 
 // Accent
-
 export function setAccent(accent) {
   data.accent = accent;
 }

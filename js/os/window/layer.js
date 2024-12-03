@@ -1,4 +1,6 @@
 // Module: Window layering
+// TODO:
+// - Implement with other modules
 
 var maxZIndex = 0;
 
