@@ -1,0 +1,95 @@
+:root {
+  --os_window_bg: #ffffff;
+  --os_window_fg: #000000;
+}
+
+.os_window {
+  backdrop-filter: blur(10px);
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
+}
+
+.os_window .top {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+.os_window .top .left {
+  background-color: color-mix(in srgb, var(--os_window_bg) 100%, transparent 50%);
+  border-radius: 10px 0 0 0;
+
+  font-size: 0.8em;
+
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  gap: 1em;
+
+  padding: 0.7em 1.3em;
+  padding-right: 0;
+
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.os_window .top .left span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.os_window .top .right {
+  display: flex;
+  align-items: stretch;
+  background-color: color-mix(in srgb, var(--os_window_bg) 100%, transparent 50%);
+  border-radius: 0 10px 0 0;
+
+
+}
+
+.os_window .top .right .action {
+  cursor: pointer;
+
+  font-size: 0.8em;
+
+  padding: 0 1em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s;
+}
+
+.os_window .top .right .close:last-child {
+  border-radius: 0 10px 0 0;
+}
+
+/* .os_window .top .right .action:hover {
+  font-size: 1em;
+  padding: 0 0.7em;
+} */
+
+.os_window .top .right .close:hover {
+  background-color: #ff746d;
+  color: #000;
+}
+
+.os_window .top .right .minimize:hover {
+  background-color: #ffc067;
+  color: #000;
+}
+
+
+.os_window .content {
+  background-color: color-mix(in srgb, var(--os_window_bg) 100%, transparent 30%);
+  border-radius: 0 0 10px 10px;
+
+  padding: 1.3em;
+  padding-top: 1em;
+}
