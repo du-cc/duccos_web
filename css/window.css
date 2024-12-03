@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: column;
 
-  position: relative;
+  position: absolute;
 }
 
 .os_window .top {
@@ -21,7 +21,11 @@
 }
 
 .os_window .top .left {
-  background-color: color-mix(in srgb, var(--os_window_bg) 100%, transparent 50%);
+  background-color: color-mix(
+    in srgb,
+    var(--os_window_bg) 100%,
+    transparent 50%
+  );
   border-radius: 10px 0 0 0;
 
   font-size: 0.8em;
@@ -32,10 +36,13 @@
   gap: 1em;
 
   padding: 0.7em 1.3em;
-  padding-right: 0;
 
   white-space: nowrap;
   overflow: hidden;
+}
+
+.os_window[undraggable] .top .left {
+  cursor: default;
 }
 
 .os_window .top .left span {
@@ -46,10 +53,12 @@
 .os_window .top .right {
   display: flex;
   align-items: stretch;
-  background-color: color-mix(in srgb, var(--os_window_bg) 100%, transparent 50%);
+  background-color: color-mix(
+    in srgb,
+    var(--os_window_bg) 100%,
+    transparent 50%
+  );
   border-radius: 0 10px 0 0;
-
-
 }
 
 .os_window .top .right .action {
@@ -85,9 +94,12 @@
   color: #000;
 }
 
-
 .os_window .content {
-  background-color: color-mix(in srgb, var(--os_window_bg) 100%, transparent 30%);
+  background-color: color-mix(
+    in srgb,
+    var(--os_window_bg) 100%,
+    transparent 30%
+  );
   border-radius: 0 0 10px 10px;
 
   padding: 1.3em;

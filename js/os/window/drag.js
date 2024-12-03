@@ -1,5 +1,5 @@
 // Module: Window dragging
-// TODO: 
+// TODO:
 // - Better warning message (includes window id and app id)
 // - Implementation with other modules
 
@@ -7,17 +7,28 @@
 const transparentIntensity = 1.3; // Intensity of the window's background opacity when dragging
 const scaleIntensity = 1.03; // Intensity of the window's scale when dragging
 
-// Import: Window layering
-
 import * as layer from "./layer.js";
+import * as windowMgmt from "./main.js";
 
 gsap.registerPlugin(Draggable);
 
-const windows = document.querySelectorAll(
-  '[elementType="window"]:not([undraggable])'
-);
+var draggableWindows = [];
+var undraggableWindows = [];
 
-windows.forEach((window) => {
+// draggableWindows = document.querySelectorAll(
+//   '[elementType="window"]:not([undraggable])'
+// );
+
+export function setDraggable(window) {
+  const query = windowMgmt.checkWindowPropertiesByElement(window);
+
+  if (query.headless === true) {
+    console.warn(
+      `Headless window detected. Dragging will be disabled. Window ID: ${query.id}, App ID: ${query.appId}`
+    );
+    return { ok: false, message: "Headless window detected" };
+  }
+
   const elements = {
     left: window.querySelector(".left"),
     right: window.querySelector(".right"),
@@ -99,4 +110,13 @@ windows.forEach((window) => {
       backgroundColor: bg.content,
     });
   });
-});
+
+
+  return { ok: true };
+}
+
+// Undraggable
+
+// const undraggableWindows = document.querySelectorAll(
+//   '[elementType="window"][undraggable]'
+// );
