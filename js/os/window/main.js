@@ -51,9 +51,10 @@ export function createWindow(args) {
   if (!args["y"]) args["y"] = "center";
   if (args["draggable"] === undefined) args["draggable"] = true;
   //   if (!args["ignoreDefault"]) args["ignoreDefault"] = false;
-  if (!args["actions"]) args["actions"] = { close: true, minimize: true };
   if (!args["pinToTop"]) args["pinToTop"] = false;
   if (!args["icon"]) args["icon"] = "";
+  if (!args["title"]) args["title"] = "Window";
+  if (!args["actions"]) args["actions"] = ["close"];
 
   // Argument fallbacks
   if (!acceptedValues["type"].includes(args["type"])) {
@@ -98,7 +99,6 @@ export function createWindow(args) {
     top.appendChild(right);
 
     // Actions (Right)
-
     // sorry if unefficient, i need these to be in order
     if (args["actions"].includes("minimize")) {
       const minimize = document.createElement("div");
@@ -187,7 +187,7 @@ export function createWindow(args) {
     });
   }
 
-  return window;
+  return { ok: true, id: window.id, window: window };
 }
 
 // TODO:
@@ -204,6 +204,7 @@ export function closeWindow(window) {
     },
   });
   // window.remove();
+  return { ok: true };
 }
 
 // TODO:
@@ -219,6 +220,7 @@ export function restoreWindow(window) {
 }
 
 // Querying
+// TODO: fix it
 export function checkWindowPropertiesByElement(window) {
   var data = {
     element: window,
