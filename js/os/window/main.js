@@ -39,12 +39,14 @@ const actionIcons = {
 // - Ignore default topbar
 
 export function createWindow(type, icon, title, content, args) {
+  console.log(args)
   const acceptedValues = {
     type: ["window", "dialog"],
     content: ["html", "url"],
   };
 
-  // Parse arguments (default values)
+  // Parse arguments 
+  // (default values)
   if (!args["x"]) args["x"] = "center";
   if (!args["y"]) args["y"] = "center";
   if (args["draggable"] === undefined) args["draggable"] = true;
@@ -150,10 +152,10 @@ export function createWindow(type, icon, title, content, args) {
 
   // Size
   if (args["sx"]) {
-    window.style.width = args["sx"];
+    contentDiv.style.width = parseInt(args["sx"]) + "px";
   }
   if (args["sy"]) {
-    window.style.height = args["sy"];
+    contentDiv.style.height = parseInt(args["sy"]) + "px";
   }
 
   // Pin to top

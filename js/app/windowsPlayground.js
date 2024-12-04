@@ -258,6 +258,8 @@ function c() {
 
   var xv = 0;
   var yv = 0;
+  var sxv = sxI.value;
+  var syv = syI.value;
 
   if (xI.value === "center") {
     xv = "center";
@@ -293,6 +295,8 @@ function c() {
     {
       x: xv,
       y: yv,
+      sx: sxv,
+      sy: syv,
       draggable: draggablef,
       pinToTop: pinToTop,
       actions: a,
