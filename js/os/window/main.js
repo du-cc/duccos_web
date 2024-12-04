@@ -38,13 +38,29 @@ const actionIcons = {
 // - Add custom actions
 // - Ignore default topbar
 
-function createWindow(type, icon, title, content, args) {
+export function createWindow(type, icon, title, content, args) {
+  const acceptedValues = {
+    type: ["window", "dialog"],
+    content: ["html", "url"],
+  };
+
   // Parse arguments (default values)
   if (!args["x"]) args["x"] = "center";
   if (!args["y"]) args["y"] = "center";
   if (args["draggable"] === undefined) args["draggable"] = true;
   //   if (!args["ignoreDefault"]) args["ignoreDefault"] = false;
   if (!args["actions"]) args["actions"] = { close: true, minimize: true };
+
+  // Argument fallbacks
+  if (!acceptedValues["type"].includes(type)) {
+    console.error("Invalid window type");
+    return { ok: false, error: "Invalid window type" };
+  }
+
+  if (!acceptedValues["content"].includes(content["type"])) {
+    console.error("Invalid content type");
+    return { ok: false, error: "Invalid content type" };
+  }
 
   // Create window
   const window = document.createElement("div");
@@ -58,7 +74,6 @@ function createWindow(type, icon, title, content, args) {
 
   // Top bar creation
   if (type === "window") {
-    console.log("topbar");
     // Top bar (parent)
     const top = document.createElement("div");
     top.classList.add("top");
@@ -110,9 +125,9 @@ function createWindow(type, icon, title, content, args) {
     const iframe = document.createElement("iframe");
     iframe.src = content["content"];
     iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute("x-frame-options", "cross-origin");
     contentDiv.appendChild(iframe);
   }
-
   // Content (HTML)
   if (content["type"] === "html") {
     contentDiv.innerHTML = content["content"];
@@ -135,10 +150,10 @@ function createWindow(type, icon, title, content, args) {
 
   // Size
   if (args["sx"]) {
-    window.style.maxWidth = args["sx"];
+    window.style.width = args["sx"];
   }
   if (args["sy"]) {
-    window.style.maxHeight = args["sy"];
+    window.style.height = args["sy"];
   }
 
   // Pin to top
@@ -150,9 +165,7 @@ function createWindow(type, icon, title, content, args) {
   document.getElementById("body").appendChild(window);
 
   // Draggable
-  console.log(args["draggable"], type);
   if (args["draggable"] === true && type === "window") {
-    console.log("draggable", window);
     drag.setDraggable(window);
   }
 
@@ -218,238 +231,3 @@ export function checkWindowPropertiesByElement(window) {
 export function checkWindowPropertiesById(id) {
   return checkWindowPropertiesByElement(document.getElementById(id));
 }
-
-console.log("Window management module loaded");
-
-createWindow(
-  "window",
-  "<i class='fa-regular fa-window fa-fw'></i>",
-  "Dialog",
-  {
-    type: "html",
-    content: `<div id="btn" style="display: flex; flex-direction: column; gap: 0.3em"></div>
-        `,
-  },
-  {
-    x: "center",
-    y: "center",
-    draggable: true,
-    ignoreDefault: false,
-    pinToTop: true,
-    actions: [],
-  }
-);
-
-// Test it out function
-// TODO:
-// - Remove this function when production
-function what() {
-  const we = document.getElementById("btn");
-  const btn = document.createElement("button");
-  btn.innerHTML = `
-    Button spawner!!!!
-    `;
-  btn.style.padding = "15px";
-  btn.style.border = "none";
-  btn.style.backgroundColor = "#c3d2e8";
-  btn.style.color = "#000";
-  btn.style.borderRadius = "10px";
-  btn.style.cursor = "pointer";
-  btn.style.fontFamily = "inherit";
-  btn.style.marginTop = "10px";
-
-  const titleI = document.createElement("input");
-  titleI.placeholder = "Title";
-  titleI.style.padding = "15px";
-  titleI.style.border = "none";
-  titleI.style.borderBottom = "1px solid #000";
-  titleI.style.color = "#000";
-  titleI.style.borderRadius = "10px";
-  titleI.style.fontFamily = "inherit";
-  titleI.style.marginBottom = "20px";
-
-  const contentL = document.createElement("label");
-  contentL.innerHTML = "Window content";
-
-  const contenttypeI = document.createElement("input");
-  contenttypeI.placeholder = "Content (url/html)";
-  contenttypeI.style.padding = "15px";
-  contenttypeI.style.border = "none";
-  contenttypeI.style.borderBottom = "1px solid #000";
-  contenttypeI.style.color = "#000";
-  contenttypeI.style.borderRadius = "10px";
-  contenttypeI.style.fontFamily = "inherit";
-
-  const contentI = document.createElement("textarea");
-  contentI.placeholder = "Content (html)";
-  contentI.style.padding = "15px";
-  contentI.style.border = "none";
-  contentI.style.borderBottom = "1px solid #000";
-  contentI.style.color = "#000";
-  contentI.style.borderRadius = "10px";
-  contentI.style.fontFamily = "inherit";
-
-  const typeI = document.createElement("input");
-  typeI.placeholder = "Type (window/dialog)";
-  typeI.style.padding = "15px";
-  typeI.style.border = "none";
-  typeI.style.borderBottom = "1px solid #000";
-  typeI.style.color = "#000";
-  typeI.style.borderRadius = "10px";
-  typeI.style.fontFamily = "inherit";
-
-  const miscL = document.createElement("label");
-  miscL.innerHTML = "Miscellaneous";
-
-  const xI = document.createElement("input");
-  xI.placeholder = "X position ''=random/center";
-  xI.style.padding = "15px";
-  xI.style.border = "none";
-  xI.style.borderBottom = "1px solid #000";
-  xI.style.color = "#000";
-  xI.style.borderRadius = "10px";
-  xI.style.fontFamily = "inherit";
-
-  const yI = document.createElement("input");
-  yI.placeholder = "Y position ''=random/center";
-  yI.style.padding = "15px";
-  yI.style.border = "none";
-  yI.style.borderBottom = "1px solid #000";
-  yI.style.color = "#000";
-  yI.style.borderRadius = "10px";
-  yI.style.fontFamily = "inherit";
-
-  const dragI = document.createElement("input");
-  dragI.placeholder = "Draggable (true/false)";
-  dragI.style.padding = "15px";
-  dragI.style.border = "none";
-  dragI.style.borderBottom = "1px solid #000";
-  dragI.style.color = "#000";
-  dragI.style.borderRadius = "10px";
-  dragI.style.fontFamily = "inherit";
-
-  const pinI = document.createElement("input");
-  pinI.placeholder = "Pin to top (true/false)";
-  pinI.style.padding = "15px";
-  pinI.style.border = "none";
-  pinI.style.borderBottom = "1px solid #000";
-  pinI.style.color = "#000";
-  pinI.style.borderRadius = "10px";
-  pinI.style.fontFamily = "inherit";
-
-  const actionL = document.createElement("label");
-  actionL.innerHTML = "Actions: 1. close, 2. minimize";
-
-  const closeCheck = document.createElement("input");
-  closeCheck.type = "checkbox";
-  closeCheck.value = "close";
-  closeCheck.checked = true;
-
-  const minimizeCheck = document.createElement("input");
-  minimizeCheck.type = "checkbox";
-  minimizeCheck.value = "minimize";
-  minimizeCheck.checked = true;
-
-  we.appendChild(typeI);
-  we.appendChild(titleI);
-  we.appendChild(contentL);
-  we.appendChild(contenttypeI);
-  we.appendChild(contentI);
-  we.appendChild(miscL);
-  we.appendChild(xI);
-  we.appendChild(yI);
-  we.appendChild(dragI);
-  we.appendChild(pinI);
-  we.appendChild(actionL);
-  we.appendChild(closeCheck);
-  we.appendChild(minimizeCheck);
-
-  we.appendChild(btn);
-
-  function gi(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  function c() {
-    const type = typeI.value;
-    const title = titleI.value;
-    const content = contentI.value;
-    const contenttype = contenttypeI.value;
-    var draggablef = dragI.value;
-    var pinToTop = pinI.value;
-
-    var xv = 0;
-    var yv = 0;
-
-    if (xI.value === "center") {
-      xv = "center";
-    } else if (xI.value === "") {
-      xv = gi(0, 1000);
-    } else {
-      xv = xI.value;
-    }
-
-    if (yI.value === "center") {
-      yv = "center";
-    } else if (yI.value === "") {
-      yv = gi(0, 1000);
-    } else {
-      yv = yI.value;
-    }
-
-    var a = [];
-
-    if (closeCheck.checked === true) {
-      a.push("close");
-    }
-
-    if (minimizeCheck.checked === true) {
-      a.push("minimize");
-    }
-
-    if (draggablef === "true") {
-      draggablef = true;
-    }
-
-    if (pinToTop === "true") {
-        pinToTop = true;
-        }
-
-    createWindow(
-      type,
-      "<i class='fa-regular fa-window fa-fw'></i>",
-      title,
-      { type: contenttype, content: content },
-      {
-        x: xv,
-        y: yv,
-        draggable: draggablef,
-        pinToTop: pinToTop,
-        actions: a,
-      }
-    );
-  }
-
-  btn.addEventListener("click", () => {
-    c();
-  });
-
-  btn.addEventListener("mousedown", () => {
-    gsap.to(btn, {
-      opacity: 0.8,
-      scale: 1.1,
-      duration: 0.3,
-    });
-  });
-
-  btn.addEventListener("mouseup", () => {
-    gsap.to(btn, {
-      opacity: 1,
-      scale: 1,
-      duration: 0.3,
-    });
-  });
-}
-
-what();
