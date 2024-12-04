@@ -10,7 +10,7 @@ windowMgmt.createWindow({
   content: {
     type: "html",
     content: `
-    <h3>sorry but mobile is not supported yet</h3>
+    <h3>sorry but mobile is not supported yet (turn on desktop site to experience)</h3>
         <div style="display: flex; flex-direction: column; gap:0.3em">
             <div style="display: flex; flex-direction: row; gap: 0.3em; flex-wrap: wrap; align-items: flex-end; padding-bottom: 0.7em; border-bottom: #000 1px solid;">
                 <span style="font-size: 1.3em">duccOS?</span><span style="font-size: 0.8em">aka duccWeb i guess?</span>
