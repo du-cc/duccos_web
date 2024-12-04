@@ -190,7 +190,16 @@ export function createWindow(type, icon, title, content, args) {
 // - Add animations
 
 export function closeWindow(window) {
-  window.remove();
+gsap.to(window, {
+    scale: 0.95,
+    opacity: 0,
+    y: "+=10",
+    duration: 0.1,
+    onComplete: () => {
+      window.remove();
+    },
+  });
+  // window.remove();
 }
 
 // TODO:

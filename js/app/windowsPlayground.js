@@ -158,34 +158,35 @@ const xy_P = document.createElement("div");
 xy_P.style.display = "flex";
 xy_P.style.gap = "0.5em";
 xy_P.style.marginBottom = "10px";
-xy_P.style.width = "100%";
 
 const xyL = document.createElement("label");
 xyL.innerHTML = "Position";
 xyL.style.marginBottom = "5px";
 
-const xI = document.createElement("input");
-xI.placeholder = "X pos";
-xI.style.padding = "15px";
-xI.style.border = "none";
-xI.style.borderBottom = "1px solid #000";
-xI.style.color = "#000";
-xI.style.borderRadius = "10px";
-xI.style.fontFamily = "inherit";
+const xI = createInput("X pos");
 xI.style.width = "75px";
 
-const yI = document.createElement("input");
-yI.placeholder = "Y pos";
-yI.style.padding = "15px";
-yI.style.border = "none";
-yI.style.borderBottom = "1px solid #000";
-yI.style.color = "#000";
-yI.style.borderRadius = "10px";
-yI.style.fontFamily = "inherit";
+const yI = createInput("Y pos");
 yI.style.width = "75px";
 
 xy_P.appendChild(xI);
 xy_P.appendChild(yI);
+
+const sxy_P = document.createElement("div");
+sxy_P.style.display = "flex";
+sxy_P.style.gap = "0.5em";
+sxy_P.style.marginBottom = "10px";
+
+const sxI = createInput("Width");
+sxI.style.width = "75px";
+const syI = createInput("Height");
+syI.style.width = "75px";
+
+const sxyL = document.createElement("label");
+sxyL.innerHTML = "Size";
+
+sxy_P.appendChild(sxI);
+sxy_P.appendChild(syI);
 
 const dragC = createCheckbox("draggable", "Draggable", true);
 const pinC = createCheckbox("pinToTop", "Pin to top", true);
@@ -216,6 +217,8 @@ div1.appendChild(contentTypeI_P);
 div2.appendChild(miscL);
 div2.appendChild(xyL);
 div2.appendChild(xy_P);
+div2.appendChild(sxyL);
+div2.appendChild(sxy_P);
 div2.appendChild(dragC[0]);
 div2.appendChild(pinC[0]);
 div2.appendChild(actionL);
