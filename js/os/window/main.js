@@ -38,28 +38,30 @@ const actionIcons = {
 // - Add custom actions
 // - Ignore default topbar
 
-export function createWindow(type, icon, title, content, args) {
-  console.log(args)
+export function createWindow(args) {
+  console.log(args);
   const acceptedValues = {
     type: ["window", "dialog"],
     content: ["html", "url"],
   };
 
-  // Parse arguments 
+  // Parse arguments
   // (default values)
   if (!args["x"]) args["x"] = "center";
   if (!args["y"]) args["y"] = "center";
   if (args["draggable"] === undefined) args["draggable"] = true;
   //   if (!args["ignoreDefault"]) args["ignoreDefault"] = false;
   if (!args["actions"]) args["actions"] = { close: true, minimize: true };
+  if (!args["pinToTop"]) args["pinToTop"] = false;
+  if (!args["icon"]) args["icon"] = "";
 
   // Argument fallbacks
-  if (!acceptedValues["type"].includes(type)) {
+  if (!acceptedValues["type"].includes(args["type"])) {
     console.error("Invalid window type");
     return { ok: false, error: "Invalid window type" };
   }
 
-  if (!acceptedValues["content"].includes(content["type"])) {
+  if (!acceptedValues["content"].includes(args["content"]["type"])) {
     console.error("Invalid content type");
     return { ok: false, error: "Invalid content type" };
   }
@@ -67,7 +69,7 @@ export function createWindow(type, icon, title, content, args) {
   // Create window
   const window = document.createElement("div");
   window.classList.add("os_window");
-  window.setAttributeNS(null, "elementType", type);
+  window.setAttributeNS(null, "elementType", args["type"]);
   if (!args["draggable"]) window.setAttribute("undraggable", "");
   window.setAttribute(
     "id",
@@ -75,7 +77,7 @@ export function createWindow(type, icon, title, content, args) {
   );
 
   // Top bar creation
-  if (type === "window") {
+  if (args["type"] === "window") {
     // Top bar (parent)
     const top = document.createElement("div");
     top.classList.add("top");
@@ -84,7 +86,7 @@ export function createWindow(type, icon, title, content, args) {
     // Top bar (Left)
     const left = document.createElement("div");
     left.classList.add("left");
-    left.innerHTML = `${icon}<span>${title}</span>`;
+    left.innerHTML = `${args["icon"]}<span>${args["title"]}</span>`;
     if (!args["actions"] || args["actions"].length === 0) {
       left.style.borderRadius = "10px 10px 0 0";
     }
@@ -118,21 +120,21 @@ export function createWindow(type, icon, title, content, args) {
   // Content
   const contentDiv = document.createElement("div");
   contentDiv.classList.add("content");
-  if (args["ignoreDefault"] === true || type === "dialog")
+  if (args["ignoreDefault"] === true || args["type"] === "dialog")
     contentDiv.style.borderRadius = "10px";
   window.appendChild(contentDiv);
 
   // Content (URL)
-  if (content["type"] === "url") {
+  if (args["content"]["type"] === "url") {
     const iframe = document.createElement("iframe");
-    iframe.src = content["content"];
+    iframe.src = args["content"]["content"];
     iframe.setAttribute("frameborder", "0");
     iframe.setAttribute("x-frame-options", "cross-origin");
     contentDiv.appendChild(iframe);
   }
   // Content (HTML)
-  if (content["type"] === "html") {
-    contentDiv.innerHTML = content["content"];
+  if (args["content"]["type"] === "html") {
+    contentDiv.innerHTML = args["content"]["content"];
   }
 
   // Additional arguments
@@ -167,12 +169,12 @@ export function createWindow(type, icon, title, content, args) {
   document.getElementById("body").appendChild(window);
 
   // Draggable
-  if (args["draggable"] === true && type === "window") {
+  if (args["draggable"] === true && args["type"] === "window") {
     drag.setDraggable(window);
   }
 
   // Event listeners
-  if (type === "window") {
+  if (args["type"] === "window") {
     args["actions"].forEach((action) => {
       window.querySelector(`.${action}`).addEventListener("click", () => {
         if (action === "close") {
@@ -192,7 +194,7 @@ export function createWindow(type, icon, title, content, args) {
 // - Add animations
 
 export function closeWindow(window) {
-gsap.to(window, {
+  gsap.to(window, {
     scale: 0.95,
     opacity: 0,
     y: "+=10",
@@ -232,7 +234,6 @@ export function checkWindowPropertiesByElement(window) {
 
   if (data.headless === false) {
     data.title = window.querySelector(".left span").innerText;
-    data.icon = window.querySelector(".left i").outerHTML;
     data.actions = window.querySelector(".right").children;
   }
 
@@ -241,12 +242,4 @@ export function checkWindowPropertiesByElement(window) {
 
 export function checkWindowPropertiesById(id) {
   return checkWindowPropertiesByElement(document.getElementById(id));
-}
-
-gsap.registerPlugin(MorphSVGPlugin) 
-
-var morph = gsap.to("#circle", { duration: 1, morphSVG:"#hippo", repeat:1, yoyo:true, repeatDelay:0.2})
-
-document.getElementById("play").onclick = function(){
-  morph.restart(true);
 }

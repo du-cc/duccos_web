@@ -1,29 +1,27 @@
-// Test it out function
+// APP: Test it out function
 // TODO:
 // - Remove this function when production
 
 import { createWindow } from "../os/window/main.js";
 
-createWindow(
-  "window",
-  "<i class='fa-regular fa-window fa-fw'></i>",
-  "Dialog",
-  {
+createWindow({
+  title: "Window spawner",
+  content: {
     type: "html",
     content: `<div id="btn" style="display: flex; flex-direction: row; gap: 1.3em; flex-wrap: wrap"></div>
-      <div id="btnp" style="display: flex; justify-content: center;>
-     " </div>
-              `,
+        <div id="btnp" style="display: flex; justify-content: center;>
+       " </div>
+                `,
   },
-  {
-    x: "center",
-    y: "center",
-    draggable: true,
-    ignoreDefault: false,
-    pinToTop: true,
-    actions: [],
-  }
-);
+  icon: `<i class="fa-regular fa-sparkles fa-fw"></i>`,
+  type: "window",
+  x: "center",
+  y: "center",
+  draggable: true,
+  ignoreDefault: false,
+  pinToTop: true,
+  actions: [],
+});
 
 const we = document.getElementById("btn");
 const wep = document.getElementById("btnp");
@@ -287,21 +285,18 @@ function c() {
     a.push("minimize");
   }
 
-  return createWindow(
-    type,
-    "<i class='fa-regular fa-window fa-fw'></i>",
-    title,
-    { type: contentType, content: content },
-    {
-      x: xv,
-      y: yv,
-      sx: sxv,
-      sy: syv,
-      draggable: draggablef,
-      pinToTop: pinToTop,
-      actions: a,
-    }
-  );
+  return createWindow({
+    title: title,
+    content: { type: contentType, content: content },
+    type: type,
+    x: xv,
+    y: yv,
+    sx: sxv,
+    sy: syv,
+    draggable: draggablef,
+    pinToTop: pinToTop,
+    actions: a,
+  });
 }
 
 btn.addEventListener("click", () => {
