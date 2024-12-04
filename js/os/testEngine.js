@@ -56,10 +56,7 @@
     return "path" !== T && t.getBBox
       ? ((s = (function _createPath(t, e) {
           var n,
-            r = document.createElementNS(
-              "http://www.w3.org/2000/svg",
-              "path"
-            ),
+            r = document.createElementNS("http://www.w3.org/2000/svg", "path"),
             o = [].slice.call(t.attributes),
             a = o.length;
           for (e = "," + e + ","; -1 < --a; )
@@ -69,11 +66,7 @@
           return r;
         })(t, "x,y,width,height,cx,cy,rx,ry,r,x1,x2,y1,y2,points")),
         (M = (function _attrToObj(t, e) {
-          for (
-            var n = e ? e.split(",") : [], r = {}, o = n.length;
-            -1 < --o;
-
-          )
+          for (var n = e ? e.split(",") : [], r = {}, o = n.length; -1 < --o; )
             r[n[o]] = +t.getAttribute(n[o]) || 0;
           return r;
         })(t, N[T])),
@@ -523,8 +516,7 @@
         )
           v <
           (r =
-            ((h = M * s) * h * u + 3 * (l = 1 - h) * (h * f + l * p)) * h +
-            c)
+            ((h = M * s) * h * u + 3 * (l = 1 - h) * (h * f + l * p)) * h + c)
             ? (v = r)
             : r < w && (w = r),
             y < (o = (h * h * m + 3 * l * (h * P + l * d)) * h + g)
@@ -589,16 +581,11 @@
     return p / 6;
   }
   function aa(t, e, n) {
-    for (
-      var r, o, a, i, s, h, l = t.length, c = 1e20, g = 0, p = 0;
-      -1 < --l;
-
-    )
+    for (var r, o, a, i, s, h, l = t.length, c = 1e20, g = 0, p = 0; -1 < --l; )
       for (h = (r = t[l]).length, s = 0; s < h; s += 6)
         (o = r[s] - e),
           (a = r[s + 1] - n),
-          (i = v(o * o + a * a)) < c &&
-            ((c = i), (g = r[s]), (p = r[s + 1]));
+          (i = v(o * o + a * a)) < c && ((c = i), (g = r[s]), (p = r[s + 1]));
     return [g, p];
   }
   function ba(t, e, n, r, o, a) {
@@ -700,8 +687,7 @@
         (g = f.centerY - u.centerY),
         P === Y)
       )
-        for (v = 0; v < u.length; v++)
-          f.splice(v, 0, ba(u[v], f, v, m, c, g));
+        for (v = 0; v < u.length; v++) f.splice(v, 0, ba(u[v], f, v, m, c, g));
       if (p)
         for (
           p < 0 && (p = -p),
@@ -733,8 +719,7 @@
                   n < 0 && ((y = true), reverseSegment(i), (n = -n)),
                   Z(i, 6 * n))
                 : "reverse" !== n &&
-                  (v && n < 0 && reverseSegment(i),
-                  Z(i, 6 * (n < 0 ? -n : n)))
+                  (v && n < 0 && reverseSegment(i), Z(i, 6 * (n < 0 ? -n : n)))
               : !y &&
                 (("auto" === n &&
                   Math.abs(a[0] - i[0]) +
@@ -779,11 +764,7 @@
       c = parseFloat(t[0]),
       g = parseFloat(t[1]),
       p = c + "," + g + " ";
-    for (
-      n = (0.5 * e) / (0.5 * (o = t.length) - 1), r = 0;
-      r < o - 2;
-      r += 2
-    ) {
+    for (n = (0.5 * e) / (0.5 * (o = t.length) - 1), r = 0; r < o - 2; r += 2) {
       if (
         ((l += n),
         (s = parseFloat(t[r + 2])),
@@ -825,8 +806,7 @@
                 n =
                   "reverse" === e
                     ? ((r = i - 1), -2)
-                    : ((r = (2 * (parseInt(e, 10) || 0) + 1 + 100 * i) % i),
-                      2),
+                    : ((r = (2 * (parseInt(e, 10) || 0) + 1 + 100 * i) % i), 2),
                   o = 0;
                 o < i;
                 o += 2
@@ -838,20 +818,7 @@
   }
   function ka(t, e) {
     for (
-      var n,
-        r,
-        o,
-        a,
-        i,
-        s,
-        h,
-        l,
-        c,
-        g,
-        p,
-        f,
-        u = t.length,
-        d = 0.2 * (e || 1);
+      var n, r, o, a, i, s, h, l, c, g, p, f, u = t.length, d = 0.2 * (e || 1);
       -1 < --u;
 
     ) {
@@ -951,9 +918,7 @@
         a)),
       (n = n || (a && a.plugins.morphSVG)),
       a && n
-        ? ((C = a.utils.toArray),
-          (n.prototype._tweenRotation = oa),
-          (I = 1))
+        ? ((C = a.utils.toArray), (n.prototype._tweenRotation = oa), (I = 1))
         : t &&
           console &&
           console.warn("Please gsap.registerPlugin(MorphSVGPlugin)");
@@ -977,6 +942,8 @@
     i = "MorphSVGPlugin",
     l = String.fromCharCode.apply(null, arguments),
     c = String.fromCharCode.apply(null, arguments),
+    g = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}:?\d*$/,
+    k = true,
     q =
       "Use MorphSVGPlugin.convertToPath() to convert to a path before morphing.",
     J = {
@@ -989,28 +956,7 @@
       init: function init(t, e, n, r, o) {
         if ((I || pa(1), !e))
           return console && console.warn("invalid shape"), false;
-        var a,
-          i,
-          s,
-          h,
-          l,
-          c,
-          g,
-          p,
-          f,
-          u,
-          d,
-          P,
-          m,
-          _,
-          v,
-          w,
-          y,
-          x,
-          T,
-          b,
-          S,
-          N;
+        var a, i, s, h, l, c, g, p, f, u, d, P, m, _, v, w, y, x, T, b, S, N;
         if (
           ("function" == typeof e && (e = e.call(n, r, t, o)),
           "string" == typeof e || e.getBBox || e[0])
@@ -1039,8 +985,7 @@
           "PATH" !== a && !l && !e.prop)
         )
           return (
-            console &&
-              console.warn("Cannot morph a <" + a + "> element. " + q),
+            console && console.warn("Cannot morph a <" + a + "> element. " + q),
             false
           );
         if (
@@ -1060,12 +1005,10 @@
                     e &&
                       "PATH" !== o &&
                       ((r = convertToPath(r, false)), (o = "PATH")),
-                    (t =
-                      r.getAttribute("PATH" === o ? "d" : "points") || ""),
+                    (t = r.getAttribute("PATH" === o ? "d" : "points") || ""),
                     r === n &&
                       (t = r.getAttributeNS(null, "data-original") || t))
-                  : (console &&
-                      console.warn("WARNING: invalid morph to: " + t),
+                  : (console && console.warn("WARNING: invalid morph to: " + t),
                     (t = false))),
               t
             );
@@ -1120,10 +1063,7 @@
                   d.size || W(d),
                   (b = la(O[0])),
                   (this._origin = u.origin =
-                    {
-                      x: u.left + b.x * u.width,
-                      y: u.top + b.y * u.height,
-                    }),
+                    { x: u.left + b.x * u.width, y: u.top + b.y * u.height }),
                   O[1] && (b = la(O[1])),
                   (this._eOrigin = {
                     x: d.left + b.x * d.width,
@@ -1215,8 +1155,7 @@
               0,
               1
             ))),
-            s &&
-              (this._props.push("morphSVG"), (s.end = h), (s.endProp = i));
+            s && (this._props.push("morphSVG"), (s.end = h), (s.endProp = i));
         }
         return k;
       },
@@ -1260,8 +1199,7 @@
               (P = P._next);
           for (r = t < 0.5 ? 2 * t * t : (4 - 2 * t) * t - 1; d; )
             (f =
-              (s = d.i) +
-              (s === (o = u[d.j]).length - 4 ? 7 - o.length : 5)),
+              (s = d.i) + (s === (o = u[d.j]).length - 4 ? 7 - o.length : 5)),
               (i = w(o[f] - o[s + 1], o[f - 1] - o[s])),
               (g = A(i)),
               (p = x(i)),
@@ -1300,9 +1238,7 @@
       getRawPath: function getRawPath(t) {
         var e,
           n = (t =
-            ("string" == typeof t &&
-              r.test(t) &&
-              document.querySelector(t)) ||
+            ("string" == typeof t && r.test(t) && document.querySelector(t)) ||
             t).getAttribute
             ? t
             : 0;
@@ -1355,4 +1291,7 @@
   } else {
     delete t.default;
   }
+
+  console.log(k)
 });
+
