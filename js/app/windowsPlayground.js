@@ -234,8 +234,8 @@ function gi(min, max) {
 function c() {
   const title = titleI.value;
   const content = contentI.value;
-  var draggablef = dragC.value;
-  var pinToTop = pinC.value;
+  var draggablef = dragC[1].checked;
+  var pinToTop = pinC[1].checked;
 
   var contentType = "";
 
@@ -252,8 +252,6 @@ function c() {
   } else if (typeI2[1].checked) {
     type = "dialog";
   }
-
-  console.log(type);
 
   var xv = 0;
   var yv = 0;
