@@ -212,7 +212,7 @@ export function closeWindow(window) {
 // - Integrate with taskbar module
 
 export function minimizeWindow(window) {
-  console.log("Minimize window");
+  console.warn("Sorry,  minimize is not implemented yet");
 }
 
 export function restoreWindow(window) {
