@@ -165,9 +165,20 @@ export function createWindow(args) {
     layer.pinToTop(window);
   }
 
-  // Append window to body
+  // Append to body + animations
+  gsap.set(window, {
+    scale: 0.95,
+    opacity: 0,
+    y: "+=10",
+    duration: 0.1,
+  });
   document.getElementById("body").appendChild(window);
-
+  gsap.to(window, {
+    scale: 1,
+    opacity: 1,
+    y: "-=10",
+    duration: 0.1,
+  });
   // Draggable
   if (args["draggable"] === true && args["type"] === "window") {
     drag.setDraggable(window);
@@ -186,6 +197,11 @@ export function createWindow(args) {
       });
     });
   }
+
+  window.addEventListener("click", () => {
+    console.log("click")
+    layer.bringToFront(window);
+  });
 
   return { ok: true, id: window.id, window: window };
 }
@@ -221,7 +237,13 @@ export function restoreWindow(window) {
 
 // Querying
 // TODO: fix it
-export function checkWindowPropertiesByElement(window) {
+export function query(arg) {
+  let window = arg;
+
+  if (typeof window === "string") {
+    window = document.getElementById(id);
+  }
+
   var data = {
     element: window,
     id: window.id,
@@ -240,8 +262,4 @@ export function checkWindowPropertiesByElement(window) {
   }
 
   return data;
-}
-
-export function checkWindowPropertiesById(id) {
-  return checkWindowPropertiesByElement(document.getElementById(id));
 }

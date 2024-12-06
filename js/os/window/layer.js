@@ -4,15 +4,22 @@
 
 var maxZIndex = 0;
 
+var data = {
+  // window: zIndex
+};
 var pinnedWindows = [];
 
 export function bringToFront(window) {
-  window.style.zIndex = ++maxZIndex;
+  if (pinnedWindows.includes(window)) {
+    window.style.zIndex = ++maxZIndex;
+  } else {
+    window.style.zIndex = ++maxZIndex;
 
-  // Keep pinned windows on top
-  pinnedWindows.forEach((pinnedWindow) => {
-    pinnedWindow.style.zIndex = ++maxZIndex;
-  });
+    // Keep pinned windows on top
+    pinnedWindows.forEach((pinnedWindow) => {
+      pinnedWindow.style.zIndex = ++maxZIndex;
+    });
+  }
 }
 
 export function pinToTop(window) {
@@ -25,4 +32,8 @@ export function unpinFromTop(window) {
   if (index > -1) {
     pinnedWindows.splice(index, 1);
   }
+}
+
+export function query(window) {
+  return window.style.zIndex;
 }

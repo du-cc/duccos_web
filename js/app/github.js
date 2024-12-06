@@ -27,12 +27,14 @@ windowMgmt.createWindow({
                 <li>Window dragging</li>
             </ul>
         </div>
-        <div id="ghbtn" style="color: #fff; background-color: #000; border-radius: 10px; width: 100%; padding: 0.7em 0; flex-wrap:wrap; font-size: 2em; display: flex; flex-direction: row; justify-content: center; margin-top: 1em; align-items: center; gap: 0.7em; cursor: pointer"><i class="fa-brands fa-github"></i>Check out the project!</div>
+        <div id="ghbtn" style="text-align: center; color: #fff; background-color: #000; border-radius: 10px; width: 100%; padding: 0.7em 0; flex-wrap:wrap; font-size: 2em; display: flex; flex-direction: row; justify-content: center; margin-top: 1em; align-items: center; gap: 0.7em; cursor: pointer"><i class="fa-brands fa-github"></i>Check out the project!</div>
             `,
   },
   type: "window",
   x: "0",
   y: "0",
+  sx: "300",
+  sy: "300",
   draggable: true,
   pinToTop: true,
   actions: ["close"],

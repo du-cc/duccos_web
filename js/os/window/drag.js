@@ -7,7 +7,6 @@
 const transparentIntensity = 1.3; // Intensity of the window's background opacity when dragging
 const scaleIntensity = 1.03; // Intensity of the window's scale when dragging
 
-import * as layer from "./layer.js";
 import * as windowMgmt from "./main.js";
 
 gsap.registerPlugin(Draggable);
@@ -20,7 +19,7 @@ var undraggableWindows = [];
 // );
 
 export function setDraggable(window) {
-  const query = windowMgmt.checkWindowPropertiesByElement(window);
+  const query = windowMgmt.query(window);
 
   if (query.headless === true) {
     console.warn(
@@ -60,11 +59,10 @@ export function setDraggable(window) {
   var windowDrag = Draggable.create(window, {
     trigger: elements.left,
     bounds: document.getElementById("body"),
+    zIndexBoost: false,
   })[0];
 
-  windowDrag.addEventListener("press", () => {
-    layer.bringToFront(window);
-
+  windowDrag.addEventListener("dragstart", () => {
     gsap.to(window, {
       scale: scaleIntensity,
       duration: 0.1,
@@ -92,7 +90,7 @@ export function setDraggable(window) {
     });
   });
 
-  windowDrag.addEventListener("release", () => {
+  windowDrag.addEventListener("dragend", () => {
     gsap.to(window, {
       scale: 1,
       duration: 0.1,
