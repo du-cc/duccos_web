@@ -8,6 +8,7 @@ const transparentIntensity = 1.3; // Intensity of the window's background opacit
 const scaleIntensity = 1.03; // Intensity of the window's scale when dragging
 
 import * as windowMgmt from "./main.js";
+import * as layer from "./layer.js"
 
 gsap.registerPlugin(Draggable);
 
@@ -63,6 +64,8 @@ export function setDraggable(window) {
   })[0];
 
   windowDrag.addEventListener("dragstart", () => {
+    layer.bringToFront(window);
+
     gsap.to(window, {
       scale: scaleIntensity,
       duration: 0.1,

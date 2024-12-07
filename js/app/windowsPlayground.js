@@ -2,25 +2,28 @@
 // TODO:
 // - Remove this function when production
 
-import { createWindow } from "../os/window/main.js";
+import * as windowMgmt from "../os/window/main.js";
 
-createWindow({
+// create when document fully loaded
+windowMgmt.create({
   title: "Window spawner",
   content: {
     type: "html",
     content: `<div id="btn" style="display: flex; flex-direction: row; gap: 1.3em; flex-wrap: wrap"></div>
-        <div id="btnp" style="display: flex; justify-content: center;>
-       " </div>
-                `,
+          <div id="btnp" style="display: flex; justify-content: center;>
+         " </div>
+                  `,
   },
   icon: `<i class="fa-regular fa-sparkles fa-fw"></i>`,
   type: "window",
   x: "0",
   y: "0",
+  sx: "500",
+  sy: "400",
   draggable: true,
   ignoreDefault: false,
   pinToTop: true,
-  actions: [],
+  actions: ["minimize"],
 });
 
 const we = document.getElementById("btn");
@@ -285,8 +288,8 @@ function c() {
     a.push("minimize");
   }
 
-  return createWindow({
-    title: title,
+  return windowMgmt.create({
+    title: title || "Window",
     content: { type: contentType, content: content },
     type: type,
     x: xv,

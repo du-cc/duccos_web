@@ -2,9 +2,9 @@
 // TODO:
 // - Remove this js file when production
 
-import * as windowMgmt from "../os/window/main.js";
+import * as window from "../os/window/main.js";
 
-windowMgmt.createWindow({
+window.create({
   title: "About this project",
   icon: `<i class="fa-regular fa-info-circle fa-fw"></i>`,
   content: {
@@ -37,7 +37,7 @@ windowMgmt.createWindow({
   sy: "300",
   draggable: true,
   pinToTop: true,
-  actions: ["close"],
+  actions: ["close", "minimize"],
 });
 
 const ghbtn = document.getElementById("ghbtn");

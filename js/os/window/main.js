@@ -6,6 +6,8 @@
 import * as layer from "./layer.js";
 import * as drag from "./drag.js";
 
+gsap.registerPlugin(MorphSVGPlugin) 
+
 // Function: Create window
 // Arguments:
 //   Name    |  Type       |  Description         |  Example
@@ -33,28 +35,40 @@ const actionIcons = {
   minimize: '<i class="fa-regular fa-minus fa-fw"></i>',
 };
 
+// Data:
+var data = {}
+
 // TODO:
 // - Implement id with app id or window id
 // - Add custom actions
 // - Ignore default topbar
 
-export function createWindow(args) {
+
+export async function create(args) {
   console.log(args);
   const acceptedValues = {
     type: ["window", "dialog"],
     content: ["html", "url"],
   };
 
+  const defaultArgs = {
+    type: "window",
+    icon: "",
+    title: "Window",
+    content: { type: "html", content: "" },
+    x: "center",
+    y: "center",
+    sx: "",
+    sy: "",
+    draggable: true,
+    pinToTop: false,
+    // ignoreDefault: false,
+    actions: ["close"],
+  };
+
   // Parse arguments
   // (default values)
-  if (!args["x"]) args["x"] = "center";
-  if (!args["y"]) args["y"] = "center";
-  if (args["draggable"] === undefined) args["draggable"] = true;
-  //   if (!args["ignoreDefault"]) args["ignoreDefault"] = false;
-  if (!args["pinToTop"]) args["pinToTop"] = false;
-  if (!args["icon"]) args["icon"] = "";
-  if (!args["title"]) args["title"] = "Window";
-  if (!args["actions"]) args["actions"] = ["close"];
+  args = { ...defaultArgs, ...args };
 
   // Argument fallbacks
   if (!acceptedValues["type"].includes(args["type"])) {
@@ -82,6 +96,7 @@ export function createWindow(args) {
     // Top bar (parent)
     const top = document.createElement("div");
     top.classList.add("top");
+    top.id = "top";
     window.appendChild(top);
 
     // Top bar (Left)
@@ -120,6 +135,7 @@ export function createWindow(args) {
   // Content
   const contentDiv = document.createElement("div");
   contentDiv.classList.add("content");
+  contentDiv.id = "content";
   if (args["ignoreDefault"] === true || args["type"] === "dialog")
     contentDiv.style.borderRadius = "10px";
   window.appendChild(contentDiv);
@@ -177,8 +193,27 @@ export function createWindow(args) {
     scale: 1,
     opacity: 1,
     y: "-=10",
-    duration: 0.1,
+    duration: 0.1
   });
+
+  data[window.id] = {
+    element: window,
+    type: args["type"],
+    x: args["x"],
+    y: args["y"],
+    sx: args["sx"],
+    sy: args["sy"],
+    draggable: args["draggable"],
+    headless: args["type"] === "dialog",
+    state: "open"
+  };
+
+
+  // Wait for next frame to ensure content is rendered
+    
+
+  console.log("k", data[window.id]);
+
   // Draggable
   if (args["draggable"] === true && args["type"] === "window") {
     drag.setDraggable(window);
@@ -192,7 +227,11 @@ export function createWindow(args) {
           closeWindow(window);
         }
         if (action === "minimize") {
-          minimizeWindow(window);
+          if (data[window.id].state === "open") {
+            minimizeWindow(window);
+          } else {
+            restoreWindow(window);
+          }
         }
       });
     });
@@ -202,6 +241,7 @@ export function createWindow(args) {
     console.log("click")
     layer.bringToFront(window);
   });
+
 
   return { ok: true, id: window.id, window: window };
 }
@@ -228,11 +268,23 @@ export function closeWindow(window) {
 // - Integrate with taskbar module
 
 export function minimizeWindow(window) {
-  console.warn("Sorry,  minimize is not implemented yet");
+  data[window.id].state = "minimized";
+  gsap.to(window.querySelector("#content"), {
+    height: 0,
+    duration: 0.1,
+    onComplete: () => {
+      window.querySelector("#content").style.display = "none";
+    },
+  });
 }
 
 export function restoreWindow(window) {
-  console.log("Restore window");
+  data[window.id].state = "open";
+  window.querySelector("#content").style.display = "block";
+  gsap.to(window.querySelector("#content"), {
+    height: data[window.id].sy,
+    duration: 0.1,
+  });
 }
 
 // Querying
@@ -244,22 +296,6 @@ export function query(arg) {
     window = document.getElementById(id);
   }
 
-  var data = {
-    element: window,
-    id: window.id,
-    type: window.getAttribute("elementType"),
-    x: window.style.left,
-    y: window.style.top,
-    sx: window.style.maxWidth,
-    sy: window.style.maxHeight,
-    draggable: !window.hasAttribute("undraggable"),
-    headless: !window.querySelector(".top"),
-  };
-
-  if (data.headless === false) {
-    data.title = window.querySelector(".left span").innerText;
-    data.actions = window.querySelector(".right").children;
-  }
-
-  return data;
+  console.log(data[window.id]);
+  return data[window.id];
 }
