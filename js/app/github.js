@@ -2,9 +2,9 @@
 // TODO:
 // - Remove this js file when production
 
-import * as window from "../os/window/main.js";
+import * as windowMgmt from "../os/window/main.js";
 
-window.create({
+windowMgmt.create({
   title: "About this project",
   icon: `<i class="fa-regular fa-info-circle fa-fw"></i>`,
   content: {
