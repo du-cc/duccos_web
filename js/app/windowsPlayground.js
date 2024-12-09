@@ -9,9 +9,9 @@ windowMgmt.create({
   title: "Window spawner",
   content: {
     type: "html",
-    content: `<div id="btn" style="display: flex; flex-direction: row; gap: 1.3em; flex-wrap: wrap"></div>
+    content: `<div id="random"><div id="btn" style="display: flex; flex-direction: row; gap: 1.3em; flex-wrap: wrap"></div>
           <div id="btnp" style="display: flex; justify-content: center;>
-         " </div>
+         " </div></div>
                   `,
   },
   icon: `<i class="fa-regular fa-sparkles fa-fw"></i>`,
