@@ -1,10 +1,11 @@
 # duccOs `aka duccWeb`
 ## Visit https://thedu.cc
 
-### A webOS coded completely using vanillaJS and the help with gsap
+### A webOS coded completely using vanillaJS with the help of gsap
+### Feel free to check out the modules im working for! [here](./js) (/app contains some basic apps and /os contains some core os files)
 
 ## Note:
-### Updates everyday or few days a time, agonna start my study arc
+### Updates everyday or few days a time, gonna start my study arc
 
 ## Todo (will update)
 - [ ] theme (wip)
