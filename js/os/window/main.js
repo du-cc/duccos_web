@@ -5,8 +5,8 @@
 
 import * as layer from "./layer.js";
 import * as drag from "./drag.js";
+import * as resize from "./resize.js";
 
-gsap.registerPlugin(MorphSVGPlugin) 
 
 // Function: Create window
 // Arguments:
@@ -91,6 +91,7 @@ export async function create(args) {
     `os_window_${Math.random().toString(36).substring(7)}`
   );
 
+
   // Top bar creation
   if (args["type"] === "window") {
     // Top bar (parent)
@@ -170,10 +171,10 @@ export async function create(args) {
 
   // Size
   if (args["sx"]) {
-    contentDiv.style.width = parseInt(args["sx"]) + "px";
+    window.style.width = parseInt(args["sx"]) + "px";
   }
   if (args["sy"]) {
-    contentDiv.style.height = parseInt(args["sy"]) + "px";
+    window.style.height = parseInt(args["sy"]) + "px";
   }
 
   // Pin to top
@@ -217,6 +218,7 @@ export async function create(args) {
   // Draggable
   if (args["draggable"] === true && args["type"] === "window") {
     drag.setDraggable(window);
+    resize.setResizeable(window);
   }
 
   // Event listeners
@@ -238,7 +240,6 @@ export async function create(args) {
   }
 
   window.addEventListener("click", () => {
-    console.log("click")
     layer.bringToFront(window);
   });
 
