@@ -3,11 +3,11 @@
   --os_window_fg: #000000;
 
   /* Resize */
-  --os_window_resize_hitbox: 10px;
+  --os_window_resize_hitbox: 7px;
 
   /* Debug options */
   --os_window_resize_hitbox_color: transparent;
-  --os_window_resize_hitbox_opacity: 0;
+  --os_window_resize_hitbox_opacity: .3;
 }
 
 .os_window {
@@ -121,6 +121,25 @@
 
   overflow: auto;
   flex-grow: 1;
+}
+
+.os_window > .content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.os_window > .content::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+}
+
+.os_window > .content:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+.os_window > .content::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 .os_window > .resize > div {

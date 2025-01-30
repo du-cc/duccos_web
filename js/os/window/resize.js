@@ -74,6 +74,7 @@ export function setResizeable(window) {
       touchCallbacks: true,
 
       onPress: function (e) {
+        element.style.transform = "";
         layer.bringToFront(window);
         data.initialWidth = window.clientWidth;
         data.initialHeight = window.clientHeight;

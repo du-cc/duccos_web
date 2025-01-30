@@ -7,7 +7,6 @@ import * as layer from "./layer.js";
 import * as drag from "./drag.js";
 import * as resize from "./resize.js";
 
-
 // Function: Create window
 // Arguments:
 //   Name    |  Type       |  Description         |  Example
@@ -36,13 +35,12 @@ const actionIcons = {
 };
 
 // Data:
-var data = {}
+var data = {};
 
 // TODO:
 // - Implement id with app id or window id
 // - Add custom actions
 // - Ignore default topbar
-
 
 export async function create(args) {
   console.log(args);
@@ -60,14 +58,16 @@ export async function create(args) {
     y: "center",
     sx: "",
     sy: "",
+    minsx: 200,
+    minsy: 200,
     draggable: true,
+    resizeable: true,
     pinToTop: false,
     // ignoreDefault: false,
     actions: ["close"],
   };
 
-  // Parse arguments
-  // (default values)
+  // default values
   args = { ...defaultArgs, ...args };
 
   // Argument fallbacks
@@ -85,12 +85,14 @@ export async function create(args) {
   const window = document.createElement("div");
   window.classList.add("os_window");
   window.setAttributeNS(null, "elementType", args["type"]);
+
+  // Attributes
   if (!args["draggable"]) window.setAttribute("undraggable", "");
+  if (!args["resizeable"]) window.setAttribute("unresizeable", "");
   window.setAttribute(
     "id",
     `os_window_${Math.random().toString(36).substring(7)}`
   );
-
 
   // Top bar creation
   if (args["type"] === "window") {
@@ -177,6 +179,11 @@ export async function create(args) {
     window.style.height = parseInt(args["sy"]) + "px";
   }
 
+  // Min size
+  window.style.minWidth = parseInt(args["minsx"]) + "px";
+  window.style.minHeight = parseInt(args["minsy"]) + "px";
+
+
   // Pin to top
   if (args["pinToTop"]) {
     layer.pinToTop(window);
@@ -194,7 +201,7 @@ export async function create(args) {
     scale: 1,
     opacity: 1,
     y: "-=10",
-    duration: 0.1
+    duration: 0.1,
   });
 
   data[window.id] = {
@@ -204,20 +211,22 @@ export async function create(args) {
     y: args["y"],
     sx: args["sx"],
     sy: args["sy"],
+    minsx: args["minsx"],
+    minsy: args["minsy"],
     draggable: args["draggable"],
     headless: args["type"] === "dialog",
-    state: "open"
+    state: "open",
   };
-
-
-  // Wait for next frame to ensure content is rendered
-    
 
   console.log("k", data[window.id]);
 
   // Draggable
   if (args["draggable"] === true && args["type"] === "window") {
     drag.setDraggable(window);
+  }
+
+  // Resizeable
+  if (args["resizeable"] === true && args["type"] === "window") {
     resize.setResizeable(window);
   }
 
@@ -242,7 +251,6 @@ export async function create(args) {
   window.addEventListener("click", () => {
     layer.bringToFront(window);
   });
-
 
   return { ok: true, id: window.id, window: window };
 }

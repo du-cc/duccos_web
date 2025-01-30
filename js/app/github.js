@@ -36,6 +36,7 @@ windowMgmt.create({
   sx: "300",
   sy: "300",
   draggable: true,
+  resizeable: true,
   pinToTop: true,
   actions: ["close", "minimize"],
 });
