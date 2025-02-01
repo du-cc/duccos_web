@@ -71,6 +71,9 @@ export function setResizeable(window) {
       type: "x,y",
       zIndexBoost: false,
       allowContextMenu: true,
+
+      // TODO:
+      // - Remove touch functionality after mobile OS is done
       touchCallbacks: true,
 
       onPress: function (e) {

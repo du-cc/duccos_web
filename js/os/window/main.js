@@ -183,7 +183,6 @@ export async function create(args) {
   window.style.minWidth = parseInt(args["minsx"]) + "px";
   window.style.minHeight = parseInt(args["minsy"]) + "px";
 
-
   // Pin to top
   if (args["pinToTop"]) {
     layer.pinToTop(window);
@@ -235,13 +234,13 @@ export async function create(args) {
     args["actions"].forEach((action) => {
       window.querySelector(`.${action}`).addEventListener("click", () => {
         if (action === "close") {
-          closeWindow(window);
+          close(window);
         }
         if (action === "minimize") {
           if (data[window.id].state === "open") {
-            minimizeWindow(window);
+            minimize(window);
           } else {
-            restoreWindow(window);
+            restore(window);
           }
         }
       });
@@ -258,7 +257,7 @@ export async function create(args) {
 // TODO:
 // - Add animations
 
-export function closeWindow(window) {
+export function close(window) {
   gsap.to(window, {
     scale: 0.95,
     opacity: 0,
@@ -276,7 +275,7 @@ export function closeWindow(window) {
 // - Add animations
 // - Integrate with taskbar module
 
-export function minimizeWindow(window) {
+export function minimize(window) {
   data[window.id].state = "minimized";
   gsap.to(window.querySelector("#content"), {
     height: 0,
@@ -287,7 +286,7 @@ export function minimizeWindow(window) {
   });
 }
 
-export function restoreWindow(window) {
+export function restore(window) {
   data[window.id].state = "open";
   window.querySelector("#content").style.display = "block";
   gsap.to(window.querySelector("#content"), {
@@ -295,6 +294,85 @@ export function restoreWindow(window) {
     duration: 0.1,
   });
 }
+
+// export function colorize(window, color) {
+  // Deprecated (pre applies transparency)
+  // Thanks to https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+  //   function hexToRgb(hex) {
+  //     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  //     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  //     hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+  //       return r + r + g + g + b + b;
+  //     });
+
+  //     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  //     return result
+  //       ? {
+  //           r: parseInt(result[1], 16),
+  //           g: parseInt(result[2], 16),
+  //           b: parseInt(result[3], 16),
+  //         }
+  //       : null;
+  //   }
+  //   console.log(color);
+  //   color = hexToRgb(color);
+  //   console.log(color);
+  // //color(srgb 1 1 1 / 0.76)
+  //   const bg = {
+  //     left: `color(srgb ${color.r/255} ${color.g/255} ${color.b/255} / 0.666667)`,
+  //     right: `color(srgb ${color.r/255} ${color.g/255} ${color.b/255} / 0.666667)`,
+  //     content: `color(srgb ${color.r/255} ${color.g/255} ${color.b/255} / 0.769231)`,
+  //   };
+
+  // const bg = {
+  //   left: color,
+  //   right: color,
+  //   content: color,
+  // }
+
+  // if (window === "all") {
+  //   window = document.querySelectorAll(".os_window");
+
+  //   window.forEach((w) => {
+  //     const elements = {
+  //       left: w.querySelector(".left"),
+  //       right: w.querySelector(".right"),
+  //       content: w.querySelector(".content"),
+  //     };
+
+  //     gsap.to(elements.left, {
+  //       backgroundColor: bg.left,
+  //     });
+
+  //     gsap.to(elements.right, {
+  //       backgroundColor: bg.right,
+  //     });
+
+  //     gsap.to(elements.content, {
+  //       backgroundColor: bg.content,
+  //     });
+  //   });
+
+  //   return { ok: true };
+  // }
+  // const elements = {
+  //   left: window.querySelector(".left"),
+  //   right: window.querySelector(".right"),
+  //   content: window.querySelector(".content"),
+  // };
+
+  // gsap.to(elements.left, {
+  //   backgroundColor: bg.left,
+  // });
+
+  // gsap.to(elements.right, {
+  //   backgroundColor: bg.right,
+  // });
+
+  // gsap.to(elements.content, {
+  //   backgroundColor: bg.content,
+  // });
+// }
 
 // Querying
 // TODO: fix it

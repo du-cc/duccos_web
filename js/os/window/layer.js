@@ -37,3 +37,4 @@ export function unpinFromTop(window) {
 export function query(window) {
   return window.style.zIndex;
 }
+

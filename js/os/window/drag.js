@@ -8,7 +8,7 @@ const transparentIntensity = 1.3; // Intensity of the window's background opacit
 const scaleIntensity = 1.03; // Intensity of the window's scale when dragging
 
 import * as windowMgmt from "./main.js";
-import * as layer from "./layer.js"
+import * as layer from "./layer.js";
 
 gsap.registerPlugin(Draggable);
 
@@ -35,27 +35,8 @@ export function setDraggable(window) {
     content: window.querySelector(".content"),
   };
 
-  const bg = {
-    left: getComputedStyle(elements.left).backgroundColor,
-    right: getComputedStyle(elements.right).backgroundColor,
-    content: getComputedStyle(elements.content).backgroundColor,
-  };
-
-  for (const key in bg) {
-    if (!bg[key].includes("/")) {
-      bg[key] = bg[key].replace(/color\((.*)\)/, "color($1 / 0.9)");
-      elements[key].style.backgroundColor = bg[key];
-      console.warn(
-        `No opacity found in ${key} background color. Fallback to 0.9 to avoid visual glitch. Blamed to GSAP strips the alpha channel when opacity is 1`
-      );
-    }
-  }
-
-  const opacity = {
-    left: parseFloat(bg.left.match(/\/ (\d+\.?\d*)/)?.[1]),
-    right: parseFloat(bg.right.match(/\/ (\d+\.?\d*)/)?.[1]),
-    content: parseFloat(bg.content.match(/\/ (\d+\.?\d*)/)?.[1]),
-  };
+  var bg = {};
+  var opacity = {};
 
   var windowDrag = Draggable.create(window, {
     trigger: elements.left,
@@ -63,7 +44,37 @@ export function setDraggable(window) {
     zIndexBoost: false,
   })[0];
 
+  function fetchColor() {
+    console.log("fetching color");
+    bg = {
+      left: getComputedStyle(elements.left).backgroundColor,
+      right: getComputedStyle(elements.right).backgroundColor,
+      content: getComputedStyle(elements.content).backgroundColor,
+    };
+
+    for (const key in bg) {
+      if (!bg[key].includes("/")) {
+        bg[key] = bg[key].replace(/color\((.*)\)/, "color($1 / 0.9)");
+        elements[key].style.backgroundColor = bg[key];
+        console.warn(
+          `No opacity found in ${key} background color. Fallback to 0.9 to avoid visual glitch. Blamed to GSAP strips the alpha channel when opacity is 1`
+        );
+      }
+    }
+
+    opacity = {
+      left: parseFloat(bg.left.match(/\/ (\d+\.?\d*)/)?.[1]),
+      right: parseFloat(bg.right.match(/\/ (\d+\.?\d*)/)?.[1]),
+      content: parseFloat(bg.content.match(/\/ (\d+\.?\d*)/)?.[1]),
+    };
+
+    console.log(bg, opacity);
+  }
+
+  windowDrag.addEventListener("press", fetchColor);
+
   windowDrag.addEventListener("dragstart", () => {
+    fetchColor();
     layer.bringToFront(window);
 
     gsap.to(window, {
@@ -101,17 +112,25 @@ export function setDraggable(window) {
 
     gsap.to(elements.left, {
       backgroundColor: bg.left,
+      onComplete: () => {
+        elements.left.style.removeProperty("background-color");
+      },
     });
 
     gsap.to(elements.right, {
       backgroundColor: bg.right,
+      onComplete: () => {
+        elements.right.style.removeProperty("background-color");
+      },
     });
 
     gsap.to(elements.content, {
       backgroundColor: bg.content,
+      onComplete: () => {
+        elements.content.style.removeProperty("background-color");
+      },
     });
   });
-
 
   return { ok: true };
 }
