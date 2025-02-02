@@ -16,6 +16,7 @@ var data = {
     window: {
       bg: "#f4f4f4",
       fg: "#000",
+      transparency: 0.9,
     },
   },
 
@@ -26,8 +27,22 @@ var data = {
       arg: "/assets/bg/svg/dark.svg",
     },
     window: {
-      bg: "#141414",
+      bg: "#121212",
       fg: "#fff",
+      transparency: 1,
+    },
+  },
+
+  demoPink: {
+    accent: "#ff00ff",
+    wallpaper: {
+      type: "url",
+      arg: "/assets/bg/svg/dark.svg",
+    },
+    window: {
+      bg: "#f7bfcc",
+      fg: "#000",
+      transparency: 0.7,
     },
   },
 };
@@ -36,7 +51,7 @@ var data = {
 export function setWallpaper(type, arg) {
   if (type === "color") {
     var wpChangeDiv = document.createElement("div");
-    wpChangeDiv.className = "wpChange";
+    wpChangeDiv.id = "wpChange";
     wpChangeDiv.style.position = "fixed";
     wpChangeDiv.style.top = "0";
     wpChangeDiv.style.left = "0";
@@ -49,7 +64,7 @@ export function setWallpaper(type, arg) {
     document.body.appendChild(wpChangeDiv);
   } else if (type === "url") {
     var wpChangeDiv = document.createElement("img");
-    wpChangeDiv.className = "wpChange";
+    wpChangeDiv.id = "wpChange";
     wpChangeDiv.style.position = "fixed";
     wpChangeDiv.style.top = "0";
     wpChangeDiv.style.left = "0";
@@ -64,7 +79,7 @@ export function setWallpaper(type, arg) {
   }
 
   // crossfade
-  gsap.to(".wpChange", {
+  gsap.to("#wpChange", {
     duration: 0.3,
     opacity: 1,
     onComplete: function () {
@@ -90,6 +105,12 @@ export function setTheme(theme) {
     // Animate background
     gsap.to("html", {
       "--os_window_bg": data[theme].window.bg,
+      duration: 0.3,
+    });
+
+    // Animate transparency
+    gsap.to("html", {
+      "--os_window_transparency": data[theme].window.transparency,
       duration: 0.3,
     });
 

@@ -45,7 +45,6 @@ export function setDraggable(window) {
   })[0];
 
   function fetchColor() {
-    console.log("fetching color");
     bg = {
       left: getComputedStyle(elements.left).backgroundColor,
       right: getComputedStyle(elements.right).backgroundColor,
@@ -53,25 +52,36 @@ export function setDraggable(window) {
     };
 
     for (const key in bg) {
-      if (!bg[key].includes("/")) {
-        bg[key] = bg[key].replace(/color\((.*)\)/, "color($1 / 0.9)");
-        elements[key].style.backgroundColor = bg[key];
-        console.warn(
-          `No opacity found in ${key} background color. Fallback to 0.9 to avoid visual glitch. Blamed to GSAP strips the alpha channel when opacity is 1`
-        );
-      }
+      // filter all opacity values
+      bg[key] = bg[key].replace(/\s*\/\s*[\d.]+\)/, "");
+      // if no opacity, filter the bracket
+      bg[key] = bg[key].replace(")", "");
     }
 
     opacity = {
-      left: parseFloat(bg.left.match(/\/ (\d+\.?\d*)/)?.[1]),
-      right: parseFloat(bg.right.match(/\/ (\d+\.?\d*)/)?.[1]),
-      content: parseFloat(bg.content.match(/\/ (\d+\.?\d*)/)?.[1]),
+      left: parseFloat(
+        getComputedStyle(elements.left).backgroundColor.match(
+          /\/ (\d+\.?\d*)/
+        )?.[1]
+      ),
+      right: parseFloat(
+        getComputedStyle(elements.right).backgroundColor.match(
+          /\/ (\d+\.?\d*)/
+        )?.[1]
+      ),
+      content: parseFloat(
+        getComputedStyle(elements.content).backgroundColor.match(
+          /\/ (\d+\.?\d*)/
+        )?.[1]
+      ),
     };
 
-    console.log(bg, opacity);
+    for (const key in opacity) {
+      if (isNaN(opacity[key])) {
+        opacity[key] = 1;
+      }
+    }
   }
-
-  windowDrag.addEventListener("press", fetchColor);
 
   windowDrag.addEventListener("dragstart", () => {
     fetchColor();
@@ -82,26 +92,44 @@ export function setDraggable(window) {
       duration: 0.1,
     });
 
-    gsap.to(elements.left, {
-      backgroundColor: bg.left.replace(
-        /\/ \d+\.?\d*/g,
-        `/ ${opacity.left / transparentIntensity}`
-      ),
-    });
+    gsap.fromTo(
+      elements.left,
+      {
+        backgroundColor: `${bg.left} / ${opacity.left})`,
+      },
+      {
+        backgroundColor: `${bg.left} / ${opacity.left / transparentIntensity})`,
+      }
+    );
 
-    gsap.to(elements.right, {
-      backgroundColor: bg.right.replace(
-        /\/ \d+\.?\d*/g,
-        `/ ${opacity.right / transparentIntensity}`
-      ),
-    });
+    gsap.fromTo(
+      elements.right,
+      {
+        backgroundColor: `${bg.right} / ${opacity.right})`,
+      },
+      {
+        backgroundColor: `${bg.right} / ${
+          opacity.right / transparentIntensity
+        })`,
+      }
+    );
 
-    gsap.to(elements.content, {
-      backgroundColor: bg.content.replace(
-        /\/ \d+\.?\d*/g,
-        `/ ${opacity.content / transparentIntensity}`
-      ),
-    });
+    // causing headache glitch *SIGH*
+    // gsap.to(elements.content, {
+    //   backgroundColor: `${bg.content} / ${opacity.content / transparentIntensity})`,
+    // });
+
+    gsap.fromTo(
+      elements.content,
+      {
+        backgroundColor: `${bg.content} / ${opacity.content})`,
+      },
+      {
+        backgroundColor: `${bg.content} / ${
+          opacity.content / transparentIntensity
+        })`,
+      }
+    );
   });
 
   windowDrag.addEventListener("dragend", () => {
@@ -109,23 +137,22 @@ export function setDraggable(window) {
       scale: 1,
       duration: 0.1,
     });
-
     gsap.to(elements.left, {
-      backgroundColor: bg.left,
+      backgroundColor: `${bg.left} / ${opacity.left})`,
       onComplete: () => {
         elements.left.style.removeProperty("background-color");
       },
     });
 
     gsap.to(elements.right, {
-      backgroundColor: bg.right,
+      backgroundColor: `${bg.right} / ${opacity.right})`,
       onComplete: () => {
         elements.right.style.removeProperty("background-color");
       },
     });
 
     gsap.to(elements.content, {
-      backgroundColor: bg.content,
+      backgroundColor: `${bg.content} / ${opacity.content})`,
       onComplete: () => {
         elements.content.style.removeProperty("background-color");
       },

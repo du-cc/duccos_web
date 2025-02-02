@@ -65,6 +65,7 @@ export function setResizeable(window) {
 
   function resizeFunction(element, direction) {
     var data = {};
+    var cursorFollow;
 
     return Draggable.create(element, {
       trigger: element,
@@ -77,6 +78,7 @@ export function setResizeable(window) {
       touchCallbacks: true,
 
       onPress: function (e) {
+        console.log("press");
         element.style.transform = "";
         layer.bringToFront(window);
         data.initialWidth = window.clientWidth;
@@ -89,6 +91,20 @@ export function setResizeable(window) {
         data.startY = e.type.includes("touch")
           ? e.touches[0].clientY
           : e.clientY;
+
+        // Mouse cursor
+        cursorFollow = document.createElement("div");
+        cursorFollow.id = "cursorFollow";
+        cursorFollow.style.cursor = getComputedStyle(element).cursor;
+        cursorFollow.style.position = "fixed";
+        cursorFollow.style.top = "0";
+        cursorFollow.style.left = "0";
+        cursorFollow.style.width = "100%";
+        cursorFollow.style.height = "100%";
+        cursorFollow.style.backgroundColor = "transparent";
+        cursorFollow.style.zIndex = "9999";
+
+        document.body.appendChild(cursorFollow);
       },
       onDrag: function (e) {
         const currentX = e.type.includes("touch")
@@ -116,6 +132,9 @@ export function setResizeable(window) {
           window.style.height = data.initialHeight - diffY + "px";
           window.style.top = data.initialY + diffY + "px";
         }
+      },
+      onRelease: function () {
+        document.body.removeChild(cursorFollow);
       },
     })[0];
   }

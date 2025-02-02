@@ -15,6 +15,7 @@ windowMgmt.create({
             <div style="display: flex; flex-direction: row; gap: 0.5em;">
                 <button id="light">Light</button>
                 <button id="dark">Dark</button>
+                <button id="pink">Pink</button>
             </div>
         </div>
         `,
@@ -32,6 +33,7 @@ windowMgmt.create({
 
 const light = document.getElementById("light");
 const dark = document.getElementById("dark");
+const pink = document.getElementById("pink");
 
 light.addEventListener("click", () => {
     theme.setTheme("defaultLight");
@@ -39,4 +41,8 @@ light.addEventListener("click", () => {
 
 dark.addEventListener("click", () => {
     theme.setTheme("defaultDark");
+});
+
+pink.addEventListener("click", () => {
+    theme.setTheme("demoPink");
 });
