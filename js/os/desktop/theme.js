@@ -3,49 +3,11 @@
 // - Sync with window engine
 // - Real time update when user changes the theme
 // - Accent color
+// - Themeset id conflict handling
 
 // Module data + defaults
-var data = {
-  // Defaults
-  defaultLight: {
-    accent: "#333",
-    wallpaper: {
-      type: "url",
-      arg: "/assets/bg/svg/light.svg",
-    },
-    window: {
-      bg: "#f4f4f4",
-      fg: "#000",
-      transparency: 0.9,
-    },
-  },
-
-  defaultDark: {
-    accent: "#f4f4f4",
-    wallpaper: {
-      type: "url",
-      arg: "/assets/bg/svg/dark.svg",
-    },
-    window: {
-      bg: "#121212",
-      fg: "#fff",
-      transparency: 1,
-    },
-  },
-
-  demoPink: {
-    accent: "#ff00ff",
-    wallpaper: {
-      type: "url",
-      arg: "/assets/bg/svg/dark.svg",
-    },
-    window: {
-      bg: "#f7bfcc",
-      fg: "#000",
-      transparency: 0.7,
-    },
-  },
-};
+var data = {};
+var currentTheme = "defaultDark";
 
 // Wallpaper
 export function setWallpaper(type, arg) {
@@ -60,7 +22,7 @@ export function setWallpaper(type, arg) {
     wpChangeDiv.style.zIndex = "-1";
     wpChangeDiv.style.backgroundColor = arg;
     wpChangeDiv.style.opacity = "0";
-    
+
     document.body.appendChild(wpChangeDiv);
   } else if (type === "url") {
     var wpChangeDiv = document.createElement("img");
@@ -73,7 +35,7 @@ export function setWallpaper(type, arg) {
     wpChangeDiv.style.zIndex = "-1";
     wpChangeDiv.style.objectFit = "cover";
     wpChangeDiv.style.opacity = "0";
-    
+
     wpChangeDiv.src = arg;
     document.body.appendChild(wpChangeDiv);
   }
@@ -95,25 +57,46 @@ export function setWallpaper(type, arg) {
 }
 
 // Theme
-export function setTheme(theme) {
-    // Animate foreground
-    gsap.to("html", {
-      "--os_window_fg": data[theme].window.fg,
-      duration: 0.3,
-    });
+export function setTheme(themeSet, theme) {
+  // Animate foreground
+  gsap.to("html", {
+    "--os_window_fg": data[themeSet]["themes"][theme].window.fg,
+    duration: 0.3,
+  });
 
-    // Animate background
-    gsap.to("html", {
-      "--os_window_bg": data[theme].window.bg,
-      duration: 0.3,
-    });
+  // Animate background
+  gsap.to("html", {
+    "--os_window_bg": data[themeSet]["themes"][theme].window.bg,
+    duration: 0.3,
+  });
 
-    // Animate transparency
-    gsap.to("html", {
-      "--os_window_transparency": data[theme].window.transparency,
-      duration: 0.3,
-    });
+  // Animate transparency
+  gsap.to("html", {
+    "--os_window_transparency":
+      data[themeSet]["themes"][theme].window.transparency,
+    duration: 0.3,
+  });
 
-    // Set wallpaper
-    setWallpaper(data[theme].wallpaper.type, data[theme].wallpaper.arg);
+  // Set wallpaper
+  setWallpaper(
+    data[themeSet]["themes"][theme].wallpaper.type,
+    data[themeSet]["themes"][theme].wallpaper.arg
+  );
+
+  // Set current theme
+  currentTheme = theme;
+}
+
+export function loadThemeSet(themeSet) {
+  console.log(themeSet);
+  // Generate unique id
+  var id = themeSet.name.replace(/\s+/g, "").toLowerCase();
+
+  // check id conflict
+  if (data[id]) {
+    console.error("ThemeSet id conflict: " + id);
+    return;
+  }
+
+  data[id] = themeSet;
 }

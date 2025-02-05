@@ -36,13 +36,13 @@ const dark = document.getElementById("dark");
 const pink = document.getElementById("pink");
 
 light.addEventListener("click", () => {
-    theme.setTheme("defaultLight");
+    theme.setTheme("default", "defaultLight");
 });
 
 dark.addEventListener("click", () => {
-    theme.setTheme("defaultDark");
+    theme.setTheme("default", "defaultDark");
 });
 
 pink.addEventListener("click", () => {
-    theme.setTheme("demoPink");
+    theme.setTheme("default", "defaultPink");
 });

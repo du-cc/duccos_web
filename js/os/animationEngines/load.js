@@ -6,16 +6,16 @@ const plugins = {
   drag: "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Draggable.min.js",
   scrollTrigger:
     "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js",
-  morphSVG: {
-    local:
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js",
-    production: "./js/os/animationEngines/morphSVG.js",
-  },
-  drawSVG: {
-    local:
-      "https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js",
-    production: "./js/os/animationEngines/drawSVG.js",
-  },
+  // morphSVG: {
+  //   local:
+  //     "https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js",
+  //   production: "./js/os/animationEngines/morphSVG.js",
+  // },
+  // drawSVG: {
+  //   local:
+  //     "https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/DrawSVGPlugin3.min.js",
+  //   production: "./js/os/animationEngines/drawSVG.js",
+  // },
 };
 
 function load() {

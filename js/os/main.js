@@ -1,5 +1,11 @@
 import * as theme from "./desktop/theme.js";
 
-theme.setWallpaper("url", "/assets/bg/svg/light.svg");
-
-theme.setTheme("defaultDark");
+fetch("/assets/theme/default.json")
+  .then((response) => response.json())
+  .then((data) => {
+    // load themeset
+    theme.loadThemeSet(data);
+    console.log("Theme set loaded");
+    // set theme
+    theme.setTheme("default", "defaultDark");
+  });
