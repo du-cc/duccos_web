@@ -21,7 +21,7 @@
       "accent": "#333",
       "wallpaper": {
         "type": "url",
-        "arg": "/assets/bg/svg/dark.svg"
+        "arg": "/assets/bg/svg/light.svg"
       },
       "window": {
         "bg": "#f4f4f4",
