@@ -1,4 +1,4 @@
-# duccOs `aka duccWeb`
+# duccOs `aka duccWeb` - updated paused
 ## Visit https://thedu.cc
 
 ### A webOS coded completely using vanillaJS with the help of gsap
