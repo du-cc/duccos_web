@@ -8,7 +8,7 @@
       "accent": "#f4f4f4",
       "wallpaper": {
         "type": "url",
-        "arg": "/assets/bg/svg/dark.svg"
+        "arg": "./assets/bg/svg/dark.svg"
       },
       "window": {
         "bg": "#121212",
@@ -21,7 +21,7 @@
       "accent": "#333",
       "wallpaper": {
         "type": "url",
-        "arg": "/assets/bg/svg/light.svg"
+        "arg": "./assets/bg/svg/light.svg"
       },
       "window": {
         "bg": "#f4f4f4",
@@ -34,7 +34,7 @@
       "accent": "#ff00ff",
       "wallpaper": {
         "type": "url",
-        "arg": "/assets/bg/svg/dark.svg"
+        "arg": "./assets/bg/svg/dark.svg"
       },
       "window": {
         "bg": "#f7bfcc",
