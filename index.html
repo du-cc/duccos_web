@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+    <!-- eruda -->
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+      var android_debug = false;
+      if (android_debug) {
+        eruda.init();
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <!-- Add this line -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://site-assets.fontawesome.com/releases/v6.7.1/css/all.css"
+    />
+    <script src="./js/os/animationEngines/load.js" type="module"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/window.css" />
+  </head>
+  <body id="body">
+    <!-- <div
+      class="os_window"
+      elementType="window"
+      style="max-width: 40vw"
+      undraggable
+    >
+      <div class="resize">
+        <div class="top"></div>
+        <div class="right"></div>
+        <div class="bottom"></div>
+        <div class="left"></div>
+        <div class="topLeft"></div>
+        <div class="topRight"></div>
+        <div class="bottomLeft"></div>
+        <div class="bottomRight"></div>
+      </div>
+      <div class="top" id="os_window_top">
+        <div class="left">
+          <i class="fa-duotone fa-solid fa-user"></i>
+          <span>Notepad · New text document (1)</span>
+        </div>
+        <div class="right">
+          <div class="action minimize">
+            <i class="fa-regular fa-minus fa-fw"></i>
+          </div>
+          <div class="action close">
+            <i class="fa-regular fa-xmark fa-fw"></i>
+          </div>
+        </div>
+      </div>
+      <div class="content">Lorem ipsum</div>
+    </div> -->
+
+    <div class="os_taskbar" id="os_taskbar"></div>
+  </body>
+  <script src="js/os/main.js" type="module"></script>
+  <script src="js/app/windowsPlayground.js" type="module"></script>
+  <script src="js/app/github.js" type="module"></script>
+  <script src="js/app/themeSwitch.js" type="module"></script>
+</html>
