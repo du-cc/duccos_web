@@ -1,6 +1,6 @@
 import * as theme from "./desktop/theme.js";
 
-fetch("/assets/theme/default.json")
+fetch("./assets/theme/default.json")
   .then((response) => response.json())
   .then((data) => {
     // load themeset
