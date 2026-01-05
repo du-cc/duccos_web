@@ -1,5 +1,5 @@
 # duccOs `aka duccWeb` - updated paused
-## Visit https://thedu.cc
+## Visit https://thedu.cc/duccos_web
 
 ### A webOS coded completely using vanillaJS with the help of gsap
 ### Feel free to check out the modules im working for! [here](./js) (/app contains some basic apps and /os contains some core os files)
